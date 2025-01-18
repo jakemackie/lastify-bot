@@ -2,9 +2,8 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 import os
+from importlib.metadata import version
 from utils.load_files import load_files
-
-__version__ = "0.1.0"
 
 load_dotenv()
 
