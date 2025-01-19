@@ -1,7 +1,7 @@
 import discord
 
 class Embeds:
-    PRIMARY_COLOR = discord.Color.from_rgb(88, 101, 242)
+    PRIMARY_COLOR = discord.Color.from_rgb(114, 169, 164)
     ERROR_COLOR = discord.Color.red()
     SUCCESS_COLOR = discord.Color.green()
 

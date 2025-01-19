@@ -13,7 +13,7 @@ class Prefix(commands.Cog):
         await ctx.send_help(ctx.command)
 
     @prefix.command(name="set")
-    @commands.has_permissions(manage_guild=True)
+    @commands.has_permissions(administrator=True)
     async def prefix_set(self, ctx: commands.Context, prefix: str) -> None:
         """Set the prefix for the current server"""
         if len(prefix) > 5:
@@ -23,12 +23,9 @@ class Prefix(commands.Cog):
         await set_guild_prefix(ctx.guild.id, prefix)
         await ctx.send(f"Server prefix has been set to: `{prefix}`")
 
-    @commands.command()
-    async def selfprefix(self, ctx: commands.Context, prefix: str) -> None:
-        """Set your personal prefix
-        
-        Usage:
-        {prefix}selfprefix <prefix>"""
+    @prefix.command(name="self")
+    async def prefix_self(self, ctx: commands.Context, prefix: str) -> None:
+        """Set your personal prefix"""
         if len(prefix) > 5:
             await ctx.send("Prefix must be 5 characters or less!")
             return
