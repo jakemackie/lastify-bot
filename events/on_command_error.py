@@ -1,4 +1,4 @@
-import discord
+from secrets import token_hex
 from discord.ext import commands
 from logging import getLogger
 from utils.embeds import Embeds
@@ -17,9 +17,10 @@ class CommandErrorHandler(commands.Cog):
             embed = Embeds.error_embed(description="You don't have permission to use this command.")
             await ctx.send(embed=embed)
             return
-
-        self.logger.error(f"Error in {ctx.command}: {str(error)}", exc_info=error)
-        embed = Embeds.error_embed(description=f"An error occurred: {str(error)}")
+        
+        err_code = token_hex(4)
+        self.logger.error(f"({err_code}) Error in {ctx.command}: {str(error)}", exc_info=error)
+        embed = Embeds.error_embed(description=f"An error occurred, please report this error code to the developer(s): `{err_code}`")
         await ctx.send(embed=embed)
 
 async def setup(bot: commands.Bot):
