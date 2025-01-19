@@ -2,8 +2,19 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 import os
-from importlib.metadata import version
-from utils.load_files import load_files
+from utils.load_module import load_module
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('debug.log'),
+        logging.StreamHandler()
+    ]
+)
+
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -14,17 +25,11 @@ bot = commands.Bot(command_prefix=",", intents=intents, help_command=None)
 bot.owner_id = 1098234073698275378
 
 async def main():
-    try:
-        await bot.load_extension("jishaku")
-    except ModuleNotFoundError:
-        print("Error: jishaku is not installed. Please install it with: pip install -U jishaku")
-    except commands.ExtensionError as e:
-        print(f"Failed to load jishaku extension: {e}")
-    except Exception as e:
-        print(f"Unexpected error loading jishaku: {type(e).__name__}: {e}")
-        
-    await load_files(bot, "cmds")
-    await load_files(bot, "events")
+    await load_module(bot, "jishaku")
+    await load_module(bot, "cmds")
+    await load_module(bot, "events")
+    
+    logger.info("Starting bot...")
     await bot.start(os.getenv("TOKEN"))
 
 if __name__ == "__main__":
