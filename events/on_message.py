@@ -11,8 +11,8 @@ class OnMessage(commands.Cog):
     async def on_message(self, message: discord.Message) -> None:
         if message.author.bot:
             return
-
-        self.logger.info(f"{message.author} said: {message.content}")
+        
+        # ...
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(OnMessage(bot))
