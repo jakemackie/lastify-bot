@@ -14,8 +14,10 @@ class OnMessageEdit(commands.Cog):
 
         if before.content == after.content:
             return
-
-        if not after.content.startswith(self.bot.command_prefix):
+        
+        prefixes = await self.bot.get_prefix(after)
+        
+        if not any(after.content.startswith(prefix) for prefix in prefixes):
             return
 
         ctx = await self.bot.get_context(after)
