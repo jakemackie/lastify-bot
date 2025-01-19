@@ -1,4 +1,3 @@
-import discord
 from discord.ext import commands
 from logging import getLogger
 from utils.prefix import set_guild_prefix, set_user_prefix

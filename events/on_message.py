@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 from logging import getLogger
-import aiosqlite
 from utils.prefix import get_guild_prefix, get_user_prefix
 
 class OnMessage(commands.Cog):
@@ -29,3 +28,4 @@ class OnMessage(commands.Cog):
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(OnMessage(bot))
     getLogger(__name__).info(f"{OnMessage.__name__} successfully loaded")
+
