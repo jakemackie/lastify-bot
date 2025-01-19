@@ -1,6 +1,6 @@
 import os
 from discord.ext import commands
-from .load_files import find_module_paths
+from .find_module_paths import find_module_paths
 from logging import getLogger
 
 logger = getLogger(__name__)
