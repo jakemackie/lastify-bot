@@ -39,14 +39,20 @@ class Help(commands.Cog):
 
     @commands.command(aliases=["commands", "h"])
     async def help(self, ctx: commands.Context, command: str = None) -> None:      
-        """View extended help for commands"""
+        """View extended help for commands
+        
+        Usage:
+        {prefix}help [command]"""
         if command is None:
             await self.show_all_commands(ctx)
         else:
             await self.show_command_help(ctx, command)
 
     async def show_all_commands(self, ctx: commands.Context) -> None:
-        embed = Embeds.embed(title="Bot Commands")
+        embed = Embeds.embed(
+            title="Commands",
+            description="Use `{prefix}help <command>` to view extended help for a command.\n`<>` required\n`[]` optional"
+        )
 
         for category, commands_list in self.get_commands_by_category().items():
             command_text = "\n".join(

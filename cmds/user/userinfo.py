@@ -9,8 +9,11 @@ class UserInfo(commands.Cog):
         self.bot = bot
 
     @commands.command(name="userinfo", aliases=["ui"])
-    async def userinfo(self, ctx: commands.Context, user: User = None):
-        """Get information about a user"""
+    async def userinfo(self, ctx: commands.Context, user: User = None) -> None:
+        """Get information about a user
+        
+        Usage:
+        {prefix}userinfo [user]"""
         user = user or ctx.author
         
         # Build footer parts
@@ -35,7 +38,6 @@ class UserInfo(commands.Cog):
             joined_info = ""
             roles_field = None
 
-        # Count mutual servers
         mutual_servers = len([guild for guild in self.bot.guilds if user in guild.members])
         if mutual_servers:
             footer_parts.append(f"{mutual_servers} mutual servers")
@@ -61,6 +63,6 @@ class UserInfo(commands.Cog):
 
         await ctx.send(embed=embed)
 
-async def setup(bot: commands.Bot):
+async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(UserInfo(bot))
     getLogger(__name__).info("UserInfo successfully loaded")

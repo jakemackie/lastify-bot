@@ -8,13 +8,16 @@ class Avatar(commands.Cog):
         self.bot = bot
 
     @commands.command(name="avatar", aliases=["av"])
-    async def avatar(self, ctx: commands.Context, user: Member = None):
-        """Get the avatar of a user"""
+    async def avatar(self, ctx: commands.Context, user: Member = None) -> None:
+        """Get the avatar of a user
+        
+        Usage:
+        {prefix}avatar [user]"""
         user = user or ctx.author
         embed = Embeds.embed(description=f"[{user.name}]({user.avatar.url})")
         embed.set_image(url=user.avatar.url)
         await ctx.send(embed=embed)
 
-async def setup(bot: commands.Bot):
+async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(Avatar(bot))
     getLogger(__name__).info("Avatar successfully loaded")
