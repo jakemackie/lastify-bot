@@ -3,6 +3,7 @@ from discord.ext import commands
 import os
 from utils.embeds import Embeds
 from logging import getLogger
+from utils.prefix import get_guild_prefix
 
 class Help(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
@@ -62,12 +63,9 @@ class Help(commands.Cog):
 
     async def show_command_help(self, ctx: commands.Context, command: str) -> None:
         command = self.bot.get_command(command)
-        
-        if command is None:
-            error_embed = Embeds.error_embed(description=f"Command `{command}` not found.")
-            await ctx.send(embed=error_embed)
-            return
 
+        prefix = await get_guild_prefix(ctx.guild.id if ctx.guild else None)
+        
         embed = Embeds.embed(title=f"Command: {command.name}")
         embed.set_author(
             name=ctx.author.display_name,
@@ -75,7 +73,7 @@ class Help(commands.Cog):
         )
 
         help_text = command.help or "No description available"
-        help_text = help_text.replace("{prefix}", ctx.prefix)
+        help_text = help_text.replace("{prefix}", prefix)
         
         description = help_text
         usage = None
