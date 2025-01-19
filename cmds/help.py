@@ -2,10 +2,12 @@ import discord
 from discord.ext import commands
 import os
 from utils.embeds import Embeds
+from logging import getLogger
 
 class Help(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
+        self.logger = getLogger(__name__)
 
     def get_commands_by_category(self) -> dict:
         categories = {}
@@ -37,7 +39,6 @@ class Help(commands.Cog):
     @commands.command(aliases=["commands", "h"])
     async def help(self, ctx: commands.Context, command: str = None) -> None:      
         """View extended help for commands"""
-  
         if command is None:
             await self.show_all_commands(ctx)
         else:
@@ -116,3 +117,4 @@ class Help(commands.Cog):
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(Help(bot))
+    getLogger(__name__).info(f"{Help.__name__} successfully loaded")
