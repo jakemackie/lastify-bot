@@ -1,4 +1,4 @@
-import discord
+from discord import Message
 from discord.ext import commands
 from logging import getLogger
 from utils.prefix import get_guild_prefix, get_user_prefix
@@ -9,7 +9,7 @@ class OnMessage(commands.Cog):
         self.logger = getLogger(__name__)
 
     @commands.Cog.listener()
-    async def on_message(self, message: discord.Message) -> None:
+    async def on_message(self, message: Message) -> None:
         if message.author.bot:
             return
 

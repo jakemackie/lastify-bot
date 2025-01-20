@@ -1,4 +1,4 @@
-import discord
+from discord import __version__
 from discord.ext import commands
 from logging import getLogger
 
@@ -9,7 +9,7 @@ class OnReady(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self) -> None:
-        self.logger.info(f"{self.bot.user.name} @{discord.__version__}")
+        self.logger.info(f"{self.bot.user.name} @{__version__}")
 
 
 async def setup(bot: commands.Bot) -> None:

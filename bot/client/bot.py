@@ -1,4 +1,4 @@
-import discord
+from discord import User
 from discord.ext import commands
 
 class CustomBot(commands.Bot):
@@ -6,7 +6,7 @@ class CustomBot(commands.Bot):
         super().__init__(**kwargs)
         self.config = config
 
-    async def is_owner(self, user: discord.User):
+    async def is_owner(self, user: User):
         if await super().is_owner(user):
             return True
             

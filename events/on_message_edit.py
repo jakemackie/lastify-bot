@@ -1,4 +1,4 @@
-import discord
+from discord import Message
 from discord.ext import commands
 from logging import getLogger
 
@@ -8,7 +8,7 @@ class OnMessageEdit(commands.Cog):
         self.logger = getLogger(__name__)
 
     @commands.Cog.listener()
-    async def on_message_edit(self, before: discord.Message, after: discord.Message) -> None:
+    async def on_message_edit(self, before: Message, after: Message) -> None:
         if after.author.bot:
             return
 

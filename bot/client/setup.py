@@ -1,10 +1,9 @@
-import discord
-from discord.ext import commands
+from discord import Intents
 from utils.prefix import get_prefix
 from .bot import CustomBot
 
 def create_bot(config):
-    intents = discord.Intents.all()
+    intents = Intents.all()
     
     bot = CustomBot(
         config=config,

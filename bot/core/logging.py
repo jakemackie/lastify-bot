@@ -1,11 +1,11 @@
-import logging
+from logging import basicConfig, INFO, FileHandler, StreamHandler
 
 def logging_init():
-    logging.basicConfig(
-        level=logging.INFO,
+    basicConfig(
+        level=INFO,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         handlers=[
-            logging.FileHandler("debug.log"),
-            logging.StreamHandler()
+            FileHandler("debug.log"),
+            StreamHandler()
         ]
     )
