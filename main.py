@@ -1,4 +1,4 @@
-import asyncio
+from asyncio import run
 from logging import getLogger
 from bot.client.setup import create_bot
 from bot.core.config import load_config
@@ -22,4 +22,4 @@ async def main():
     await bot.start(config["bot"]["token"])
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    run(main())
