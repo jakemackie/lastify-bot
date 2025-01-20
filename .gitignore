@@ -63,3 +63,7 @@ coverage.xml
 *.log
 *.sqlite
 *.db
+
+# Config
+*.toml
+!config.example.toml

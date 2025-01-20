@@ -21,3 +21,8 @@ async def load_module(bot: commands.Bot, path: str) -> None:
             logger.info(f"Loaded module: {path}")
         except commands.ExtensionError as e:
             logger.error(f"Failed to load module {path}: {str(e)}")
+
+async def load_modules(bot, module_list):
+    """Load multiple modules at once"""
+    for module in module_list:
+        await load_module(bot, module)

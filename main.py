@@ -1,38 +1,21 @@
-import discord
-from discord.ext import commands
-from dotenv import load_dotenv
-from os import getenv
-from utils.load_module import load_module
+import asyncio
 import logging
-from utils.prefix import get_prefix
-
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('debug.log'),
-        logging.StreamHandler()
-    ]
-)
+from bot.client import create_bot
+from bot.config import load_config
+from utils.load_module import load_modules
 
 logger = logging.getLogger(__name__)
 
-load_dotenv()
-
-intents = discord.Intents.default()
-intents.message_content = True
-
-bot = commands.Bot(command_prefix=get_prefix, intents=intents, help_command=None)
-bot.owner_id = 1098234073698275378
-
 async def main():
-    await load_module(bot, "jishaku")
-    await load_module(bot, "cmds")
-    await load_module(bot, "events")
+    config = load_config()
+    
+    bot = create_bot(config)
+    
+    # Load all modules
+    await load_modules(bot, ["jishaku", "cmds", "events"])
     
     logger.info("Starting bot...")
-    await bot.start(getenv("TOKEN"))
+    await bot.start(config["bot"]["token"])
 
 if __name__ == "__main__":
-    import asyncio
     asyncio.run(main())
