@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import List, Final
 from tomllib import load
 from pathlib import Path
-from logging import getLevelName
+import logging
 
 @dataclass(frozen=True)
 class LoggingConfig:
@@ -11,7 +11,7 @@ class LoggingConfig:
     file_path: Final[str] = "debug.log"
 
     def __post_init__(self):
-        if not getLevelName(self.level):
+        if not getattr(logging, self.level, None):
             raise ValueError(f"Invalid logging level: {self.level}")
 
 @dataclass(frozen=True)
