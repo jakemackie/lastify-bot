@@ -8,8 +8,8 @@ from bot.modules.loader import load_modules
 logger = getLogger(__name__)
 
 async def main():
-    logging_init()
     config = load_config()
+    logging_init(config)
     bot = create_bot(config)
     
     await load_modules(bot, [
@@ -19,7 +19,7 @@ async def main():
     ])
     
     logger.info("Starting bot...")
-    await bot.start(config["bot"]["token"])
+    await bot.start(config.bot.token)
 
 if __name__ == "__main__":
     run(main())

@@ -1,3 +1,9 @@
 [bot]
 token = "..."
 owner_ids = ["..."]
+default_prefix = ","
+
+[logging]
+level = "INFO"
+format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+file_path = "debug.log"

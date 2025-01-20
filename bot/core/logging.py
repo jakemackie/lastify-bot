@@ -1,11 +1,12 @@
-from logging import basicConfig, INFO, FileHandler, StreamHandler
+from logging import basicConfig, FileHandler, StreamHandler
+from bot.core.config import Config
 
-def logging_init():
+def logging_init(config: Config):
     basicConfig(
-        level=INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        level=config.logging.level,
+        format=config.logging.format,
         handlers=[
-            FileHandler("debug.log"),
+            FileHandler(config.logging.file_path),
             StreamHandler()
         ]
     )

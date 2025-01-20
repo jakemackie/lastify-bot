@@ -1,8 +1,9 @@
 from discord import User
 from discord.ext import commands
+from bot.core.config import Config
 
 class CustomBot(commands.Bot):
-    def __init__(self, config, **kwargs):
+    def __init__(self, config: Config, **kwargs):
         super().__init__(**kwargs)
         self.config = config
 
@@ -10,5 +11,4 @@ class CustomBot(commands.Bot):
         if await super().is_owner(user):
             return True
             
-        owner_ids = self.config["bot"]["owner_ids"]
-        return user.id in owner_ids
+        return user.id in self.config.bot.owner_ids
