@@ -5,10 +5,10 @@ import aiosqlite
 async def get_prefix(bot: commands.Bot, message: discord.Message) -> list[str]:
     """Get the appropriate prefix for a message context"""
     default_prefix = ","
-    prefixes = set([default_prefix])
+    prefixes = set()
 
     if not message.guild:
-        return list(prefixes)
+        return [default_prefix]
 
     async with aiosqlite.connect('database.db') as db:
         await db.execute('''CREATE TABLE IF NOT EXISTS guild_prefixes (guild_id INTEGER PRIMARY KEY, prefix TEXT)''')
@@ -24,6 +24,10 @@ async def get_prefix(bot: commands.Bot, message: discord.Message) -> list[str]:
         guild_prefix = await cursor.fetchone()
         if guild_prefix:
             prefixes.add(guild_prefix[0])
+
+        # Only add default prefix if no custom prefixes are set
+        if not prefixes:
+            prefixes.add(default_prefix)
 
         return list(prefixes)
 
