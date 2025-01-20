@@ -1,16 +1,16 @@
 import discord
 from discord.ext import commands
 from utils.prefix import get_prefix
+from .bot import CustomBot
 
 def create_bot(config):
-    intents = discord.Intents.default()
-    intents.message_content = True
+    intents = discord.Intents.all()
     
-    bot = commands.Bot(
+    bot = CustomBot(
+        config=config,
         command_prefix=get_prefix,
         intents=intents,
         help_command=None
     )
     
-    bot.owner_id = config["bot"]["owner_id"]
-    return bot 
+    return bot
