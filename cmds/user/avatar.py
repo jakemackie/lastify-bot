@@ -1,6 +1,5 @@
 from discord import Member
 from discord.ext import commands
-from utils.embeds import Embeds
 from logging import getLogger
 
 class Avatar(commands.Cog):
@@ -14,7 +13,7 @@ class Avatar(commands.Cog):
         Usage:
         {prefix}avatar [user]"""
         user = user or ctx.author
-        embed = Embeds.embed(description=f"[{user.name}]({user.avatar.url})")
+        embed = ctx.embed(description=f"[{user.name}]({user.avatar.url})")
         embed.set_image(url=user.avatar.url)
         await ctx.send(embed=embed)
 

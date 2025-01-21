@@ -1,7 +1,5 @@
-import discord
 from discord.ext import commands
 import os
-from utils.embeds import Embeds
 from logging import getLogger
 from utils.prefix import get_guild_prefix
 
@@ -50,7 +48,7 @@ class Help(commands.Cog):
 
     async def show_all_commands(self, ctx: commands.Context) -> None:
         prefix = await get_guild_prefix(ctx.guild.id if ctx.guild else None)
-        embed = Embeds.embed(
+        embed = ctx.embed(
             title="Commands",
             description=f"Use `{prefix}help <command>` to view extended help for a command.\n`<>` required\n`[]` optional"
         )
@@ -72,13 +70,13 @@ class Help(commands.Cog):
         command = self.bot.get_command(command)
         
         if command is None:
-            embed = Embeds.embed(description="Command not found")
+            embed = ctx.error_embed(description="Command not found")
             await ctx.send(embed=embed)
             return
 
         prefix = await get_guild_prefix(ctx.guild.id if ctx.guild else None)
         
-        embed = Embeds.embed(title=f"Command: {command.name}")
+        embed = ctx.embed(title=f"Command: {command.name}")
         embed.set_author(
             name=ctx.author.display_name,
             icon_url=ctx.author.display_avatar.url

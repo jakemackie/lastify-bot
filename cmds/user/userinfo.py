@@ -1,29 +1,31 @@
 from discord import User, Member
 from discord.ext import commands
-from utils.embeds import Embeds
 from logging import getLogger
 from datetime import datetime
+from utils.resolvers import resolve_user
 
 class UserInfo(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     @commands.command(name="userinfo", aliases=["ui"])
-    async def userinfo(self, ctx: commands.Context, user: User = None) -> None:
+    async def userinfo(self, ctx: commands.Context, *, user: str = None) -> None:
         """Get information about a user
         
         Usage:
-        {prefix}userinfo [user]"""
-        user = user or ctx.author
+        {prefix}userinfo <user>"""
+        user = await resolve_user(ctx, user)
         
-        # Build footer parts
+        if user is None:
+            embed = ctx.error_embed(description="Could not find that user.")
+            await ctx.send(embed=embed)
+            return
+        
         footer_parts = []
         
-        # Only handle guild-specific info if user is a member of the guild
         if isinstance(user, Member) and user.guild == ctx.guild:
             roles = ", ".join([r.mention for r in user.roles][:8])
             
-            # Sort members by join date and find user's position
             sorted_members = sorted(ctx.guild.members, key=lambda m: m.joined_at or datetime.max)
             join_position = sorted_members.index(user) + 1
             footer_parts.append(f"Join position: {join_position}")
@@ -44,7 +46,7 @@ class UserInfo(commands.Cog):
 
         footer_text = " ∙ ".join(footer_parts) if footer_parts else None
 
-        embed = Embeds.embed(
+        embed = ctx.embed(
         ).set_author(name=f"{user.name} ({user.id})"
         ).add_field(
             inline=False,
@@ -60,6 +62,8 @@ class UserInfo(commands.Cog):
 
         if footer_text:
             embed.set_footer(text=footer_text)
+
+        embed.set_thumbnail(url=user.avatar.url)
 
         await ctx.send(embed=embed)
 
