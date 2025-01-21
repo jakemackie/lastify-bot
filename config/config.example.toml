@@ -1,7 +1,6 @@
 [bot]
-token = "..."
 owner_ids = ["..."]
-default_prefix = ","
+default_prefix = ";"
 
 [logging]
 level = "INFO"

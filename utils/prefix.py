@@ -1,10 +1,11 @@
 import discord
 from discord.ext import commands
 import aiosqlite
+from bot.core.config import load_config
 
 async def get_prefix(bot: commands.Bot, message: discord.Message) -> list[str]:
     """Get the appropriate prefix for a message context"""
-    default_prefix = ","
+    default_prefix = load_config().bot.default_prefix
     prefixes = set()
 
     if not message.guild:
@@ -45,13 +46,15 @@ async def set_user_prefix(user_id: int, prefix: str) -> None:
 
 async def get_guild_prefix(guild_id: int | None) -> str:
     """Get the guild's prefix or default if none is set"""
+    default_prefix = load_config().bot.default_prefix
+    
     if guild_id is None:
-        return ","
+        return default_prefix
         
     async with aiosqlite.connect('database.db') as db:
         cursor = await db.execute('SELECT prefix FROM guild_prefixes WHERE guild_id = ?', (guild_id,))
         guild_prefix = await cursor.fetchone()
-        return guild_prefix[0] if guild_prefix else ","
+        return guild_prefix[0] if guild_prefix else default_prefix
 
 async def get_user_prefix(user_id: int) -> str | None:
     """Get the user's prefix if set"""

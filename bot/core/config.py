@@ -3,6 +3,8 @@ from typing import List, Final
 from tomllib import load
 from pathlib import Path
 import logging
+from os import getenv
+from dotenv import load_dotenv
 
 @dataclass(frozen=True)
 class LoggingConfig:
@@ -32,15 +34,21 @@ class Config:
     logging: LoggingConfig = field(default_factory=LoggingConfig)
 
 def load_config(path="config/config.toml") -> Config:
+    load_dotenv()
+    
     root = Path(__file__).parent.parent.parent
     config_path = root / path
     
     with open(config_path, "rb") as f:
         raw_config = load(f)
         
+    token = getenv("TOKEN")
+    if not token:
+        raise ValueError("TOKEN environment variable is not set")
+        
     return Config(
         bot=BotConfig(
-            token=raw_config["bot"]["token"],
+            token=token,
             owner_ids=[int(id) for id in raw_config["bot"]["owner_ids"]],
             default_prefix=raw_config["bot"].get("default_prefix", ",")
         ),
