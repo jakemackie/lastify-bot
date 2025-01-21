@@ -70,6 +70,11 @@ class Help(commands.Cog):
 
     async def show_command_help(self, ctx: commands.Context, command: str) -> None:
         command = self.bot.get_command(command)
+        
+        if command is None:
+            embed = Embeds.embed(description="Command not found")
+            await ctx.send(embed=embed)
+            return
 
         prefix = await get_guild_prefix(ctx.guild.id if ctx.guild else None)
         
