@@ -49,9 +49,10 @@ class Help(commands.Cog):
             await self.show_command_help(ctx, command)
 
     async def show_all_commands(self, ctx: commands.Context) -> None:
+        prefix = await get_guild_prefix(ctx.guild.id if ctx.guild else None)
         embed = Embeds.embed(
             title="Commands",
-            description="Use `{prefix}help <command>` to view extended help for a command.\n`<>` required\n`[]` optional"
+            description=f"Use `{prefix}help <command>` to view extended help for a command.\n`<>` required\n`[]` optional"
         )
 
         for category, commands_list in self.get_commands_by_category().items():
